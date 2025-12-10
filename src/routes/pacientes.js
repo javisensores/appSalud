@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const pacienteController = require(' .. /controllers/pacienteController');
+const pacienteController = require('../controllers/pacienteController');
 
 router
 .get('/paciente', pacienteController.obtenerPaciente)
@@ -10,4 +10,4 @@ router
 .delete('/paciente/:id', pacienteController.eliminarPaciente)
 .get('/pacientes', pacienteController.listarPacientes);
 
-module.exports = router;|
+module.exports = router;
