@@ -30,7 +30,7 @@ app.set('views', './src/views');
 // Rutas 
 // Ruta principal
 app.get('/', (req, res) => {
-    res.send('¡Hola Mundo desde Express!');
+    res.redirect('/paciente/pacientes');
 });
 
 app.use('/paciente', pacienteRouter);
