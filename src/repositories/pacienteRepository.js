@@ -63,7 +63,7 @@ const actualizar = async (paciente) => {
     await pool.query('UPDATE pacientes SET nombre = ?, apellidos = ?, fechaDeNacimiento = ? WHERE id = ?',
     [paciente.nombre, paciente.apellidos, paciente.fechaDeNacimiento, paciente.id]);
 // Devolvemos el paciente actualizado
-    return new paciente(
+    return new Paciente(
         paciente.id,
         paciente.nombre,
         paciente.apellidos,
