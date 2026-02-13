@@ -10,7 +10,3 @@ router.put('/:id', basculaController.actualizarPeso);
 router.delete('/:id', basculaController.eliminarPeso);
 
 module.exports = router;
-const express = require('express');
-const router = express.Router();
-
-module.exports = router;

@@ -3,22 +3,27 @@
 <section class="panel">
   <div class="panel-header"><h1>Historial de Temperaturas - <%= paciente.nombre %> <%= paciente.apellidos %></h1></div>
   <div class="panel-body">
-    <% if (temperaturas && temperaturas.length) { %>
+      <% if (temperaturas && temperaturas.length) { %>
       <table class="table">
         <thead>
-          <tr><th>Fecha</th><th>Temperatura</th><th>Unidad</th><th>Equivalente</th><th>Acciones</th></tr>
+          <tr><th>Fecha</th><th>Temperatura</th><th>Unidad</th><th>Equivalente</th><th>Estado</th><th>Acciones</th></tr>
         </thead>
         <tbody>
           <% temperaturas.forEach(function(t){ %>
             <tr>
-              <td><%= new Date(t.fecha).toLocaleString('es-ES') %></td>
+              <td><%= t.fechaDisplay || 'Fecha desconocida' %></td>
               <td><%= t.temperatura %></td>
               <td><%= t.unidad %></td>
               <td>
-                <% if (t.unidad === 'celsius') { %>
-                  <%= (t.temperatura * 9/5 + 32).toFixed(2) %> °F
+                <%= t.equivalente %> <%= t.unidad === 'celsius' ? '°F' : '°C' %>
+              </td>
+              <td>
+                <% if (t.estado === 'normal') { %>
+                  <span class="badge badge-normal">Normal</span>
+                <% } else if (t.estado === 'fiebre') { %>
+                  <span class="badge badge-fever">Fiebre</span>
                 <% } else { %>
-                  <%= ((t.temperatura - 32) * 5/9).toFixed(2) %> °C
+                  <span class="badge badge-highfever">Fiebre alta</span>
                 <% } %>
               </td>
               <td class="actions">

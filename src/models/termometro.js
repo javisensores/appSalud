@@ -1,5 +1,13 @@
 class Termometro {
-  constructor() {
+  constructor(id = null, paciente_id = null, temperatura = null, unidad = 'celsius', fecha = null) {
+    // Valores de registro persistido
+    this.id = id;
+    this.paciente_id = paciente_id;
+    this.temperatura = temperatura;
+    this.unidad = unidad;
+    this.fecha = fecha;
+
+    // Compatibilidad en memoria
     this.temperaturas = [];
   }
 

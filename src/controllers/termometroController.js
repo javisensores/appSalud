@@ -12,11 +12,41 @@ const listarTemperaturas = async (req, res) => {
         }
         
         const temperaturas = await termometroRepository.listarPorPaciente(pacienteId);
-        
+
+        // Añadir datos derivados: equivalente, clasificación y fecha formateada
+        const temperaturasDerivadas = (temperaturas || []).map(t => {
+            const tempVal = Number(t.temperatura);
+            const unidad = t.unidad || 'celsius';
+            let equivalente = null;
+            if (unidad === 'celsius') equivalente = Number((tempVal * 9/5 + 32).toFixed(2));
+            else equivalente = Number(((tempVal - 32) * 5/9).toFixed(2));
+
+            // Clasificación simple de fiebre (en Celsius)
+            const tempC = unidad === 'celsius' ? tempVal : (tempVal - 32) * 5/9;
+            let estado = 'normal';
+            if (tempC >= 38 && tempC < 39) estado = 'fiebre';
+            else if (tempC >= 39) estado = 'fiebre-alta';
+
+            // Formatear fecha de forma segura
+            let fechaDisplay = 'Fecha desconocida';
+            try {
+                let fd = t.fecha;
+                if (!(fd instanceof Date)) {
+                    // convertir 'YYYY-MM-DD HH:MM:SS' a ISO
+                    fd = new Date(String(fd).replace(' ', 'T'));
+                }
+                if (!isNaN(fd.getTime())) fechaDisplay = fd.toLocaleString('es-ES');
+            } catch (e) {
+                fechaDisplay = 'Fecha desconocida';
+            }
+
+            return Object.assign({}, t, { equivalente, estado, fechaDisplay });
+        });
+
         res.render('termometro/historial', {
             title: `Historial de Temperaturas - ${paciente.nombre} ${paciente.apellidos}`,
             paciente,
-            temperaturas
+            temperaturas: temperaturasDerivadas
         });
     } catch (error) {
         console.error('Error al listar temperaturas:', error);

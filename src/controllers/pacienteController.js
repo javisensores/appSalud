@@ -1,4 +1,6 @@
 const pacienteRepository = require('../repositories/pacienteRepository');
+const basculaRepository = require('../repositories/basculaRepositoty');
+const termometroRepository = require('../repositories/termometroRepository');
 
 const obtenerPaciente = async (req, res) => {
    
@@ -6,19 +8,59 @@ const obtenerPaciente = async (req, res) => {
       if (!id) {
           return res.status(400).send('El ID del paciente es obligatorio');
       } 
-      const paciente = await pacienteRepository.buscarPorId(id);
+            const paciente = await pacienteRepository.buscarPorId(id);
       if (!paciente) {
           return  res.render('buscar', { 
               title: 'App Salud',
               message: 'ERROR : Paciente no encontrado',});
 
        }
+// Obtener último pesaje y temperatura para mostrar valores derivados
+            const ultimoPesaje = await basculaRepository.obtenerUltimoPesaje(id);
+            const ultimaTemp = await termometroRepository.obtenerUltimaTemperatura(id);
+
+            // Calcular IMC y descripción
+            let imc = null;
+            let imcDesc = '';
+            if (ultimoPesaje && ultimoPesaje.peso && ultimoPesaje.altura) {
+                imc = Number((Number(ultimoPesaje.peso) / (Number(ultimoPesaje.altura) * Number(ultimoPesaje.altura))).toFixed(2));
+                if (imc < 16) imcDesc = 'Infrapeso (delgadez severa)';
+                else if (imc < 17) imcDesc = 'Infrapeso (delgadez moderada)';
+                else if (imc < 18.5) imcDesc = 'Infrapeso (delgadez aceptable)';
+                else if (imc < 25) imcDesc = 'Peso normal';
+                else if (imc < 30) imcDesc = 'Sobrepeso';
+                else if (imc < 35) imcDesc = 'Obeso (Tipo I)';
+                else if (imc < 40) imcDesc = 'Obeso (Tipo II)';
+                else imcDesc = 'Obeso (Tipo III)';
+            }
+
+            // Calcular equivalentes de temperatura
+            let tempValue = null;
+            let tempUnit = null;
+            let tempEquivalent = null;
+            if (ultimaTemp) {
+                tempValue = Number(ultimaTemp.temperatura);
+                tempUnit = ultimaTemp.unidad || 'celsius';
+                if (tempUnit === 'celsius') {
+                    tempEquivalent = Number((tempValue * 9/5 + 32).toFixed(2));
+                } else {
+                    tempEquivalent = Number(((tempValue - 32) * 5/9).toFixed(2));
+                }
+            }
 
 //Si existe el paciente, lo mostramos
-       res.render('buscar', {
-           title: 'App Salud',
-           paciente,
-           message: 'Paciente encontrado' });
+             res.render('buscar', {
+                     title: 'App Salud',
+                     paciente,
+                     message: 'Paciente encontrado',
+                     ultimoPesaje,
+                     imc,
+                     imcDesc,
+                     ultimaTemp,
+                     tempValue,
+                     tempUnit,
+                     tempEquivalent
+             });
           
  };
 

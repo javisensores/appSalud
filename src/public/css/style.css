@@ -95,3 +95,9 @@ dd{margin:0}
 /* Footer spacing */
 footer{padding:24px 0;text-align:center;color:var(--muted);font-size:0.95rem}
 
+/* Badges para temperatura */
+.badge{display:inline-block;padding:6px 10px;border-radius:999px;color:#fff;font-weight:700;font-size:0.85rem}
+.badge-normal{background:linear-gradient(90deg,#38b2ac,#2a9d8f)}
+.badge-fever{background:linear-gradient(90deg,#f6ad55,#f56565)}
+.badge-highfever{background:linear-gradient(90deg,#e53e3e,#9b2c2c)}
+

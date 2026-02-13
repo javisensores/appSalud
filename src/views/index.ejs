@@ -25,6 +25,8 @@
                 <td class="actions">
                   <a class="btn btn-sm" href="/paciente/pacientes/<%= paciente.id %>">Ver</a>
                   <a class="btn btn-sm btn-outline" href="/paciente/pacientes/editar/<%= paciente.id %>">Editar</a>
+                  <a class="btn btn-sm" href="/bascula/<%= paciente.id %>">Báscula</a>
+                  <a class="btn btn-sm" href="/termometro/<%= paciente.id %>">Termómetro</a>
                   <form class="inline-form" action="/paciente/pacientes/<%= paciente.id %>?_method=DELETE" method="POST">
                     <button class="btn btn-sm btn-danger" type="submit">Eliminar</button>
                   </form>

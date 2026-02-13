@@ -1,27 +1,59 @@
 <%- include('partials/header') %>
 
-<section class="card">
-    <% if (paciente) { %>
-        <div class="card-header">
-            <h1>Detalles del Paciente</h1>
-        </div>
-        <div class="card-body">
-            <dl>
-                <dt>ID</dt>
-                <dd><%= paciente.id %></dd>
-                <dt>Nombre</dt>
-                <dd><%= paciente.nombre %></dd>
-                <dt>Apellidos</dt>
-                <dd><%= paciente.apellidos %></dd>
-                <dt>Fecha de Nacimiento</dt>
-                <dd><%= new Date(paciente.fechaDeNacimiento).toLocaleDateString('es-ES') %></dd>
-            </dl>
-            <div class="actions">
-                <a class="btn" href="/">Volver</a>
+<section class="grid">
+    <div class="panel">
+        <% if (paciente) { %>
+            <div class="panel-header"><h1>Detalles del Paciente</h1></div>
+            <div class="panel-body">
+                <dl>
+                    <dt>ID</dt>
+                    <dd><%= paciente.id %></dd>
+                    <dt>Nombre</dt>
+                    <dd><%= paciente.nombre %></dd>
+                    <dt>Apellidos</dt>
+                    <dd><%= paciente.apellidos %></dd>
+                    <dt>Fecha de Nacimiento</dt>
+                    <dd><%= new Date(paciente.fechaDeNacimiento).toLocaleDateString('es-ES') %></dd>
+                </dl>
+                <div class="actions" style="margin-top:12px">
+                    <a class="btn" href="/">Volver</a>
+                    <a class="btn" href="/bascula/<%= paciente.id %>">Ver báscula</a>
+                    <a class="btn" href="/termometro/<%= paciente.id %>">Ver termómetro</a>
+                </div>
             </div>
+        <% } else { %>
+            <p>Paciente no encontrado.</p>
+        <% } %>
+    </div>
+
+    <% if (paciente) { %>
+    <aside class="panel">
+        <div class="panel-header"><h2>Últimos registros</h2></div>
+        <div class="panel-body">
+            <h3>Báscula</h3>
+            <% if (typeof ultimoPesaje !== 'undefined' && ultimoPesaje) { %>
+                <p><strong>Peso:</strong> <%= ultimoPesaje.peso %> kg</p>
+                <p><strong>Altura:</strong> <%= ultimoPesaje.altura %> m</p>
+                <% if (typeof imc !== 'undefined' && imc !== null) { %>
+                    <p><strong>IMC:</strong> <%= imc %> — <%= imcDesc %></p>
+                <% } %>
+                <p><small>Fecha: <%= new Date(ultimoPesaje.fecha).toLocaleString('es-ES') %></small></p>
+            <% } else { %>
+                <p>No hay registros de báscula.</p>
+            <% } %>
+
+            <hr>
+
+            <h3>Termómetro</h3>
+            <% if (typeof ultimaTemp !== 'undefined' && ultimaTemp) { %>
+                <p><strong>Temperatura:</strong> <%= tempValue %> °<%= tempUnit === 'celsius' ? 'C' : 'F' %></p>
+                <p><strong>Equivalente:</strong> <%= tempEquivalent %> °<%= tempUnit === 'celsius' ? 'F' : 'C' %></p>
+                <p><small>Fecha: <%= new Date(ultimaTemp.fecha).toLocaleString('es-ES') %></small></p>
+            <% } else { %>
+                <p>No hay registros de temperatura.</p>
+            <% } %>
         </div>
-    <% } else { %>
-        <p>Paciente no encontrado.</p>
+    </aside>
     <% } %>
 </section>
 

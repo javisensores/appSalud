@@ -6,6 +6,7 @@ const methodOverride = require('method-override');
 //routas
 const pacienteRouter = require('./routes/paciente');
 const basculaRouter = require('./routes/bascula');
+const termometroRouter = require('./routes/termometro');
 
 
 const app = express();
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 
 app.use('/paciente', pacienteRouter);
 app.use('/bascula', basculaRouter);
+app.use('/termometro', termometroRouter);
 
 app.use((req, res) => {
   res.status(404).render('error', {
