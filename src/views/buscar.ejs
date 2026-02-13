@@ -1,14 +1,28 @@
 <%- include('partials/header') %>
 
-     <% if (paciente) { %>
-      
-    <h1>Detalles del Paciente</h1>
-    <ul>
-        <li><strong>Id:</strong> <%= paciente.id %></li>
-        <li><strong>Nombre:</strong> <%= paciente.nombre %></li>
-        <li><strong>Apellidos:</strong> <%= paciente.apellidos %></li>
-        <li><strong>Fecha Nacimiento:</strong> <%= new Date(paciente.fechaDeNacimiento).toLocaleDateString('es-ES') %></li>
-    </ul>
-        <% } %>
-    <a href="/">Volver a la lista de pacientes</a>
-    <%- include('partials/footer') %>
+<section class="card">
+    <% if (paciente) { %>
+        <div class="card-header">
+            <h1>Detalles del Paciente</h1>
+        </div>
+        <div class="card-body">
+            <dl>
+                <dt>ID</dt>
+                <dd><%= paciente.id %></dd>
+                <dt>Nombre</dt>
+                <dd><%= paciente.nombre %></dd>
+                <dt>Apellidos</dt>
+                <dd><%= paciente.apellidos %></dd>
+                <dt>Fecha de Nacimiento</dt>
+                <dd><%= new Date(paciente.fechaDeNacimiento).toLocaleDateString('es-ES') %></dd>
+            </dl>
+            <div class="actions">
+                <a class="btn" href="/">Volver</a>
+            </div>
+        </div>
+    <% } else { %>
+        <p>Paciente no encontrado.</p>
+    <% } %>
+</section>
+
+<%- include('partials/footer') %>

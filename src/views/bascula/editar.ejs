@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+
+<section class="panel form-panel">
+  <div class="panel-header"><h1>Editar Registro - <%= paciente.nombre %> <%= paciente.apellidos %></h1></div>
+  <div class="panel-body">
+    <form class="form" action="/bascula/<%= registro.id %>?_method=PUT" method="POST">
+      <div class="form-row">
+        <label for="peso">Peso (kg)</label>
+        <input step="0.01" type="number" id="peso" name="peso" value="<%= registro.peso %>" required>
+      </div>
+      <div class="form-row">
+        <label for="altura">Altura (m)</label>
+        <input step="0.01" type="number" id="altura" name="altura" value="<%= registro.altura %>" required>
+      </div>
+      <div class="form-row">
+        <button class="btn btn-primary" type="submit">Actualizar</button>
+        <a class="btn btn-outline" href="/bascula/<%= paciente.id %>">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

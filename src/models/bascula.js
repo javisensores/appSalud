@@ -1,10 +1,18 @@
 class Bascula {
 
-    constructor() {
+  constructor(id = null, paciente_id = null, peso = null, altura = null, fecha = null) {
+    // Valores de un registro persistido
+    this.id = id;
+    this.paciente_id = paciente_id;
+    this.peso = peso;
+    this.altura = altura;
+    this.fecha = fecha;
+
+    // Compatibilidad con uso en memoria
     this.pesos = [];
     this.alturas = [];
     this.fechas = [];
-    this.anotaciones = 0; // Puedes asociar una instancia de Bascula si lo necesitas
+    this.anotaciones = 0; // contador de anotaciones en memoria
   }
 
   /**
@@ -68,6 +76,12 @@ class Bascula {
   }
 
   calcularIMCO() {
+    // Si la instancia representa un registro con peso/altura
+    if (this.peso !== null && this.altura !== null) {
+      const imc = Number(this.peso) / (Number(this.altura) * Number(this.altura));
+      return Number(imc.toFixed(2));
+    }
+    // Si se usa en modo colección
     if (this.pesos.length === 0) return null;
     const peso = this.pesos[this.pesos.length - 1];
     const altura = this.alturas[this.alturas.length - 1] || 1;

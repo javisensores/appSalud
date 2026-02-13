@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<section class="panel">
+  <div class="panel-header"><h1>Historial de Temperaturas - <%= paciente.nombre %> <%= paciente.apellidos %></h1></div>
+  <div class="panel-body">
+    <% if (temperaturas && temperaturas.length) { %>
+      <table class="table">
+        <thead>
+          <tr><th>Fecha</th><th>Temperatura</th><th>Unidad</th><th>Equivalente</th><th>Acciones</th></tr>
+        </thead>
+        <tbody>
+          <% temperaturas.forEach(function(t){ %>
+            <tr>
+              <td><%= new Date(t.fecha).toLocaleString('es-ES') %></td>
+              <td><%= t.temperatura %></td>
+              <td><%= t.unidad %></td>
+              <td>
+                <% if (t.unidad === 'celsius') { %>
+                  <%= (t.temperatura * 9/5 + 32).toFixed(2) %> °F
+                <% } else { %>
+                  <%= ((t.temperatura - 32) * 5/9).toFixed(2) %> °C
+                <% } %>
+              </td>
+              <td class="actions">
+                <a class="btn btn-sm" href="/termometro/editar/<%= t.id %>">Editar</a>
+                <form class="inline-form" action="/termometro/<%= t.id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-sm btn-danger" type="submit">Borrar</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p>No hay registros de temperatura.</p>
+    <% } %>
+    <p><a class="btn" href="/termometro/<%= paciente.id %>/crear">Registrar temperatura</a></p>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,43 @@
+<%- include('../partials/header') %>
+
+<section class="panel">
+  <div class="panel-header"><h1>Historial de Pesos - <%= paciente.nombre %> <%= paciente.apellidos %></h1></div>
+  <div class="panel-body">
+    <% if (pesajes && pesajes.length) { %>
+      <table class="table">
+        <thead>
+          <tr><th>Fecha</th><th>Peso (kg)</th><th>Altura (m)</th><th>IMC</th><th>Acciones</th></tr>
+        </thead>
+        <tbody>
+          <% pesajes.forEach(function(p){ %>
+            <tr>
+              <td><%= new Date(p.fecha).toLocaleString('es-ES') %></td>
+              <td><%= p.peso %></td>
+              <td><%= p.altura %></td>
+              <td>
+                <% if (p.peso && p.altura) { %>
+                  <%= (Number(p.peso) / (Number(p.altura)*Number(p.altura))).toFixed(2) %>
+                <% } else { %> - <% } %>
+              </td>
+              <td class="actions">
+                <a class="btn btn-sm" href="/bascula/editar/<%= p.id %>">Editar</a>
+                <form class="inline-form" action="/bascula/<%= p.id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-sm btn-danger" type="submit">Borrar</button>
+                </form>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <% if (imc) { %>
+        <p>IMC actual: <strong><%= imc %></strong> — <%= imcDesc %></p>
+      <% } %>
+    <% } else { %>
+      <p>No hay registros.</p>
+    <% } %>
+
+    <p><a class="btn" href="/bascula/<%= paciente.id %>/crear">Registrar nuevo peso</a></p>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

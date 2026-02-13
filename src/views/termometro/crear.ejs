@@ -1,0 +1,26 @@
+<%- include('../partials/header') %>
+
+<section class="panel form-panel">
+  <div class="panel-header"><h1>Registrar Temperatura - <%= paciente.nombre %> <%= paciente.apellidos %></h1></div>
+  <div class="panel-body">
+    <form class="form" action="/termometro/<%= paciente.id %>" method="POST">
+      <div class="form-row">
+        <label for="temperatura">Temperatura</label>
+        <input step="0.01" type="number" id="temperatura" name="temperatura" required>
+      </div>
+      <div class="form-row">
+        <label for="unidad">Unidad</label>
+        <select id="unidad" name="unidad">
+          <option value="celsius">Celsius</option>
+          <option value="fahrenheit">Fahrenheit</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <button class="btn btn-primary" type="submit">Registrar</button>
+        <a class="btn btn-outline" href="/termometro/<%= paciente.id %>">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<%- include('../partials/footer') %>

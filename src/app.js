@@ -11,7 +11,6 @@ const basculaRouter = require('./routes/bascula');
 const app = express();
 const PORT = 3000;
 
-
 //middlewares
 // Interpreta los datos de formularios HTML 
 app.use(bodyParser.urlencoded({ extended: true}));
@@ -35,6 +34,13 @@ app.get('/', (req, res) => {
 
 app.use('/paciente', pacienteRouter);
 app.use('/bascula', basculaRouter);
+
+app.use((req, res) => {
+  res.status(404).render('error', {
+    title: 'Error 404',
+    message: 'La página que buscas no existe'
+  });
+});
 
 //----------------
 

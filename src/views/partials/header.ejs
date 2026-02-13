@@ -1,15 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <%= title %>
-    </title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || 'App Salud' %></title>
+
+  <!-- Fuente moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
-    <span style="color: red;">
-        <%= message %>
-    </span>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="/">App Salud</a>
+      <nav class="nav">
+        <a href="/paciente/pacientes">Pacientes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main">
+      <p class="error-help">
+
+        Verifica la información ingresada o regresa a la página principal.
+

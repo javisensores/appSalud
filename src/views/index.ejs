@@ -1,40 +1,66 @@
 <%- include('partials/header') %>
 
-<h1>Lista de Pacientes</h1>
+<section class="grid">
+  <div class="panel">
+    <div class="panel-header">
+      <h1>Lista de Pacientes</h1>
+    </div>
+    <div class="panel-body">
+      <% if (pacientes && pacientes.length) { %>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellidos</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% pacientes.forEach(function(paciente) { %>
+              <tr>
+                <td><%= paciente.id %></td>
+                <td><%= paciente.nombre %></td>
+                <td><%= paciente.apellidos %></td>
+                <td class="actions">
+                  <a class="btn btn-sm" href="/paciente/pacientes/<%= paciente.id %>">Ver</a>
+                  <a class="btn btn-sm btn-outline" href="/paciente/pacientes/editar/<%= paciente.id %>">Editar</a>
+                  <form class="inline-form" action="/paciente/pacientes/<%= paciente.id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-sm btn-danger" type="submit">Eliminar</button>
+                  </form>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p>No hay pacientes registrados.</p>
+      <% } %>
+    </div>
+  </div>
 
-  <ul>
-<% pacientes.forEach(function(paciente) { %>
-  <li>
-    <strong>
-      <%= paciente.nombre %>
-        <%= paciente.apellidos %>
-        <!-- Botón para ver el paciente -->
-        <a href="/paciente/pacientes/<%= paciente.id %>">Ver</a> 
-        <!-- Botón para actualizar el paciente -->
-        <a href="/paciente/pacientes/editar/<%= paciente.id %>">Actualizar</a>
-        <!-- Botón para eliminar el paciente -->
-         <form action="/paciente/pacientes/<%= paciente.id %>?_method=DELETE" method="POST" style="display: inline;">
-          <button type="submit">Eliminar</button>
-        </form>
-    </li>
-   <% }); %>
-  </ul>
-  
+  <aside class="panel form-panel">
+    <div class="panel-header"><h2>Agregar Paciente</h2></div>
+    <div class="panel-body">
+      <form class="form" action="/paciente/pacientes" method="POST">
+        <div class="form-row">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" required>
+        </div>
+        <div class="form-row">
+          <label for="apellidos">Apellidos</label>
+          <input type="text" id="apellidos" name="apellidos" required>
+        </div>
+        <div class="form-row">
+          <label for="fechaDeNacimiento">Fecha de Nacimiento</label>
+          <input type="date" id="fechaDeNacimiento" name="fechaDeNacimiento" required>
+        </div>
+        <div class="form-row">
+          <button class="btn btn-primary" type="submit">Agregar Paciente</button>
+        </div>
+      </form>
+    </div>
+  </aside>
+</section>
 
-  <!-- Nuevo paciente -->
-
-  <h2>Agregar Nuevo Paciente </h2>
-  <form action="/paciente/pacientes" method="POST">
-    <label for="nombre">Nombre:</label>
-    <input type="text" id="nombre" name="nombre" required>
-    <br>
-    <label for="apellidos">Apellidos:</label>
-    <input type="text" id="apellidos" name="apellidos" required>
-    <br>
-    <label for="fechaDeNacimiento">Fecha de Nacimiento:</label>
-    <input type="date" id="fechaDeNacimiento" name="fechaDeNacimiento" required>
-    <br>
-    <button type="submit">Agregar Paciente</button>
-  </form> 
-
-    <%- include('partials/footer') %>
+<%- include('partials/footer') %>
